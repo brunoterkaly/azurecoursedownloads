@@ -1,0 +1,66 @@
+## Provisioning a Storage Account with the Portal and ARM (Hands-On)
+
+### azuredeploy.json
+
+```json
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "newStorageAccountName": {
+      "type": "string",
+      "metadata": {
+          "description": "Name of the Storage Account"
+      }
+    },
+    "storageAccountType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_GRS",
+        "Standard_ZRS"
+      ],
+      "metadata": {
+          "description": "Storage Account type"
+      }
+    },
+    "location": {
+      "type": "string",
+      "allowedValues": ["East US", "West US", "West Europe", "East Asia", "Southeast Asia"],
+      "metadata": {
+          "description": "Location of storage account"
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[parameters('newStorageAccountName')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[parameters('location')]",
+      "properties": {
+        "accountType": "[parameters('storageAccountType')]"
+      }
+    }
+  ]
+}
+
+```
+
+### azuredeploy.parameters.json
+
+```json
+{
+    "newStorageAccountName" : {
+        "value" : ""
+    },
+    "storageAccountType": {
+        "value": "Standard_GRS"
+    },
+    "location": {
+        "value": "West US"
+    }
+}
+
+```
